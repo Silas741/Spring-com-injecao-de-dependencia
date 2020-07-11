@@ -6,19 +6,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.model.Veiculo;
-import com.example.demo.model.Repository.VeiculosRepository;
+import com.example.demo.model.bean.Veiculo;
+import com.example.demo.model.service.VeiculoService;
 
 @Controller
 public class VeiculosController {
 
+	//@Autowired
+	//private VeiculosRepository veiculosRepo;
 	@Autowired
-	private VeiculosRepository veiculosRepo;
-
+	private VeiculoService veiculoService;
 	@GetMapping("/veiculos")
 	public ModelAndView listarVeiculos() {
 		ModelAndView mv = new ModelAndView("Lista_Veiculos");
-		java.util.List<Veiculo> veiculos = veiculosRepo.findAll();
+		java.util.List<Veiculo> veiculos = veiculoService.ListarTodos();
 		mv.addObject(new Veiculo());
 		mv.addObject("veiculos", veiculos);
 
@@ -27,7 +28,7 @@ public class VeiculosController {
 
 	@PostMapping("/veiculos")
 	public String salvar(Veiculo veiculo) {
-		veiculosRepo.save(veiculo);
+		veiculoService.salvar(veiculo);
 		return "redirect:/veiculos";
 	}
 }
